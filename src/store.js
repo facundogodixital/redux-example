@@ -1,13 +1,19 @@
 // Este es el store de Redux
-
 import { createStore, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
 
 
 const reducer = (state, action) => {
-    console.log('Reducer llamado. State inicial:', state, '. Action: ', action);
+    // console.log('Reducer llamado. State inicial:', state, '. Action: ', action);
 
 
-    if (action.type==='ADD_TO_CART') {
+    if (action.type==='REPLACE_PRODUCTS') {
+        return {
+            ...state, 
+            products: action.products,
+        };
+    }
+    else if (action.type==='ADD_TO_CART') {
         // Retorno un nuevo state con el producto
         const newState = {
             ...state,
@@ -31,12 +37,17 @@ const reducer = (state, action) => {
 
 
 const logger = store => next => action => {
-  console.log('Middleware: logger() -> Dispatching', action);
-  let result = next(action);
-  console.log('Middleware: logger() -> Next state', store.getState());
-  return result;
+    console.log('Middleware: logger() -> Dispatching', action);
+    let result = next(action);
+    console.log('Middleware: logger() -> Next state', store.getState());
+    return result;
 }
 
 
-const initialState = { cart: [] };
-export default createStore(reducer, initialState, applyMiddleware(logger));
+const initialState = { 
+    cart: [], 
+    products: [] 
+};
+
+
+export default createStore(reducer, initialState, applyMiddleware(logger, thunk));

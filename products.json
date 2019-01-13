@@ -1,0 +1,7 @@
+{
+    "products": [
+        {"id":1, "name":"Producto UNO", "price":"300", "image":"https://s3.amazonaws.com/makeitreal/projects/e-commerce/camiseta-1.jpg"},
+        {"id":2, "name":"Producto DOS", "price":"90", "image":"https://s3.amazonaws.com/makeitreal/projects/e-commerce/camiseta-2.jpg"},
+        {"id":3, "name":"Producto TRES", "price":"150", "image":"https://s3.amazonaws.com/makeitreal/projects/e-commerce/camiseta-3.jpg"}
+    ]
+}
