@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Button, Glyphicon } from 'react-bootstrap';
+import store from '../store';
+
 
 const styles = {
   products: {
@@ -13,6 +15,8 @@ const styles = {
     marginRight: 10
   }
 };
+
+
 
 class ProductList extends Component {
   constructor() {
@@ -46,9 +50,20 @@ class ProductList extends Component {
     );
   }
 
+
   addToCart(product) {
 
+    console.log('ProductList::addToCart | Dispatch con type:ADD_TO_CART, producto: ', product);
+
+    // Agrego un nuevo producto, mediante el store y el dispatch, esto llama a la funcion reductora que va a ocuaparse de retornar
+    // el nuevo state con el producto agregado
+    store.dispatch({
+      type: 'ADD_TO_CART', 
+      product
+    });    
   }
+
 }
+
 
 export default ProductList;

@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Panel, Table, Button, Glyphicon } from 'react-bootstrap';
+import store from '../store';
+
 
 const styles = {
   footer: {
@@ -16,6 +18,19 @@ class ShoppingCart extends Component {
     this.state = {
       cart: []
     }
+
+
+    // Me subscribo al store, para que re-renderice el carrito de compras cuando haya un cambio de state.
+    // Ese cambio de state, lo va a hacer el reducer, si se dispatchea la acción "ADD_TO_CART".
+    store.subscribe(() => {
+      this.setState({
+        cart: store.getState().cart
+      });
+
+      console.log('Subscribe llamado | state actual: ', store.getState());
+    });
+
+    console.log('ShoppingCart::constructor | Subscribe realizado.');
   }
 
   render() {
@@ -44,9 +59,15 @@ class ShoppingCart extends Component {
     )
   }
 
-  removeFromCart(product) {
 
+  removeFromCart(product) {
+    store.dispatch({
+      type: 'REMOVE_FROM_CART',
+      product 
+    });
   }
+
+
 }
 
 export default ShoppingCart;
