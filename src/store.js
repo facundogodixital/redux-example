@@ -1,39 +1,39 @@
 // Este es el store de Redux
-import { createStore, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware, combineReducers } from 'redux';
 import thunk from 'redux-thunk';
 
 
-const reducer = (state, action) => {
-    // console.log('Reducer llamado. State inicial:', state, '. Action: ', action);
 
+//Ahore recibe la propiedad "products" del state, en lugar del state completo (por implementacion de combineReducers)
+const productsReducer = (products=[], action) => {
+    // Como estoy usando combineReducers, SOLO retorno el nuevo valor de la propiedad correspondiente del state, en lugar
+    // de armar el state completo.
+    // La propiedad que corresponde, se especifica al usar combineReducers, abajo al crear el store.
 
-    if (action.type==='REPLACE_PRODUCTS') {
-        return {
-            ...state, 
-            products: action.products,
-        };
+    switch (action.type){
+        case 'REPLACE_PRODUCTS':
+            // return {...state, products: action.products};  NO se usa si estoy usando combineReducers
+            return action.products;
+        default:
+            return products;
     }
-    else if (action.type==='ADD_TO_CART') {
-        // Retorno un nuevo state con el producto
-        const newState = {
-            ...state,
-            cart: state.cart.concat(action.product)
-        };
-        // console.log('Reducer llamado. Nuevo state:', newState);
-        return newState; 
-    }
-    else if (action.type==='REMOVE_FROM_CART') {
-        // Retorno un nuevo state SIN el producto
-        const newState = {
-            ...state,
-            cart: state.cart.filter(product => product.id !== action.product.id)
-        };
-        // console.log('Reducer llamado. State nuevo:', newState);
-        return newState; 
-    }
-
-    return state;
 };
+
+
+
+const cartReducer = (cart=[], action) => {
+    switch (action.type){
+        case 'ADD_TO_CART':
+            return cart.concat(action.product)
+        case 'REMOVE_FROM_CART':
+            return cart.filter(product => product.id !== action.product.id)
+        default:
+            return cart;
+    }
+};
+
+
+
 
 
 const logger = store => next => action => {
@@ -44,10 +44,9 @@ const logger = store => next => action => {
 }
 
 
-const initialState = { 
-    cart: [], 
-    products: [] 
+const rootReducer = {
+    cart: cartReducer, 
+    products: productsReducer
 };
 
-
-export default createStore(reducer, initialState, applyMiddleware(logger, thunk));
+export default createStore(combineReducers(rootReducer), applyMiddleware(logger, thunk));
