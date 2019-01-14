@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import './index.css';
 import store from './store';
-import { loadProductsAction } from './actionCreators';
+import { loadProductsAction } from './actions/productsActions';
 import { Provider } from 'react-redux';
 
 

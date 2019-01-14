@@ -1,6 +1,6 @@
 import React from 'react';
 import { Panel, Table, Button, Glyphicon } from 'react-bootstrap';
-import { getRemoveFromCartAction } from '../actionCreators';
+import { removeFromCartAction } from '../actions/cartActions';
 import { connect } from 'react-redux';
 
 
@@ -57,7 +57,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     removeFromCart: product => {
-      dispatch(getRemoveFromCartAction(product));
+      dispatch(removeFromCartAction(product));
     }
   };
 };
