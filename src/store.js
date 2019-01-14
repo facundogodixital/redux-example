@@ -1,5 +1,5 @@
 // Este es el store de Redux
-import { createStore, applyMiddleware, combineReducers } from 'redux';
+import { createStore, applyMiddleware, combineReducers, compose } from 'redux';
 import { cartReducer } from './reducers/cartReducer';
 import { productsReducer } from './reducers/productsReducer';
 import thunk from 'redux-thunk';
@@ -21,4 +21,13 @@ const rootReducer = {
     products: productsReducer
 };
 
-export default createStore(combineReducers(rootReducer), applyMiddleware(logger, thunk));
+/* eslint-disable no-underscore-dangle */
+export default createStore(
+    combineReducers(rootReducer), 
+    /* initialState */
+    compose(
+        applyMiddleware(logger, thunk),
+        window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+    )
+);
+/* eslint-enable */
